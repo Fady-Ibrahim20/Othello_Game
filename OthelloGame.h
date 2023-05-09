@@ -27,6 +27,8 @@ public:
 
     void saveBoard(char (&oldBoard)[ROWS][COLUMNS], char (&board)[ROWS][COLUMNS]) override;
 
+    pair<int,int> getCurrentScore(char (*board)[8]) override;
+
     char reversePlayer(char player) override;
 
     int clculateHeuristic(char board[ROWS][COLUMNS]) override;

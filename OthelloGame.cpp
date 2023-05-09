@@ -682,8 +682,8 @@ int OthelloGame::countToBeFlankedCoinsInDiagonals(char board[ROWS][COLUMNS],int 
         int i=1;
         while(board[row+i][column+i] == reversePlayer(player) && (column+i)<(COLUMNS) && (row+i)<(ROWS))
         {
-            --flankEndRow;
-            --flankEndColumn;
+            ++flankEndRow;
+            ++flankEndColumn;
             ++i;
             if(board[row+i][column+i] == player)
             {
@@ -787,13 +787,13 @@ char OthelloGame::getWinner(char (*board)[ROWS])
 {
     int maxPlayerCoins=0;
     int minPlayerCoins=0;
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLUMNS; j++) {
-            if (board[i][j] == 'X')
+    for (int row = 0; row < ROWS; row++) {
+        for (int column = 0; column < COLUMNS; column++) {
+            if (board[row][column] == 'X')
             {
                 ++maxPlayerCoins;
             }
-            else if(board[i][j] == 'N')
+            else if(board[row][column] == 'N')
             {
                 ++minPlayerCoins;
             }
@@ -803,5 +803,23 @@ char OthelloGame::getWinner(char (*board)[ROWS])
         return 'X';
     }else{
         return 'N';
+    }
+}
+
+pair<int,int> OthelloGame::getCurrentScore(char (*board)[8]) {
+    int maxPlayerCoins=0;
+    int minPlayerCoins=0;
+    for (int row = 0; row < ROWS; row++) {
+        for (int column = 0; column < COLUMNS; column++) {
+            if(board[row][column])
+            if (board[row][column] == 'X')
+            {
+                ++maxPlayerCoins;
+            }
+            else if(board[row][column] == 'N')
+            {
+                ++minPlayerCoins;
+            }
+        }
     }
 }

@@ -31,7 +31,7 @@ public:
 
     virtual char getWinner(char (*board)[ROWS])=0;
 
-
+    virtual pair<int,int> getCurrentScore(char board[ROWS][COLUMNS])=0;
 
 };
 
