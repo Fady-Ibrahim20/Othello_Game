@@ -10,6 +10,7 @@
 #include "Game.h"
 
 class AlphaBetaPruningAlgorithm : public MiniMaxAlgorithm{
+protected:
     pair<int,pair<int,int>>
     recursiveAlphaBetaAlgorithm(Game &game, char (&board)[ROWS][COLUMNS], int depth,int alpha,int beta, char player, bool firstTime=true);
 

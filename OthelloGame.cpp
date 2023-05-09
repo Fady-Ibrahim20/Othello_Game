@@ -356,27 +356,25 @@ void OthelloGame::flankInAllDirections(char board[ROWS][COLUMNS],int row,int col
 
 int OthelloGame::clculateHeuristic(char (*board)[8])
 {
-    //return coinParity(board) +occupiedEdgeCoins(board);
-    //cout << "heurisitc value returned is "<< coinParity(board)<<endl;
-    //return coinParity(board);
-    //return coinParity(board) + mobility(board) +  cornersCaptured(board);
-    //return coinParity(board) + mobility(board) + occupiedEdgeCoins(board) + cornersCaptured(board);
-    //stabiltiy
-    // Create threads for each function
     std::vector<std::thread> threads;
     auto parityResult=0;
     auto mobilityResult=0;
     auto cornersResult=0;
+    auto stabilityResult=0;
+    //auto occupliedEdgesResult=0;
 
     threads.emplace_back([&](){ parityResult = coinParity(board); });
     threads.emplace_back([&](){ mobilityResult = mobility(board); });
     threads.emplace_back([&](){ cornersResult = cornersCaptured(board); });
+    threads.emplace_back([&](){ stabilityResult = stability(board); });
+   // threads.emplace_back([&](){ occupliedEdgesResult = occupiedEdgeCoins(board); });
+
 
     for (auto& thread : threads) {
         thread.join();
     }
 
-    return parityResult + mobilityResult + cornersResult;
+    return parityResult + mobilityResult + cornersResult + stabilityResult;
 
 }
 int OthelloGame::coinParity(char board[ROWS][COLUMNS])
@@ -505,12 +503,6 @@ int OthelloGame::stability(char board[ROWS][COLUMNS])
     }
     return stabilityValue;
 }
-int OthelloGame::toBeFlankedCoins(char board[ROWS][COLUMNS],pair<int,int> move,char player)
-{
-    return countToBeFlankedCoinsInColumns(board,move.first,move.second,player) +
-           countToBeFlankedCoinsInRows(board,move.first,move.second,player) +
-           countToBeFlankedCoinsInDiagonals(board,move.first,move.second,player);
-}
 pair<int,int> OthelloGame::countStableAndUnStableCoins(char board[ROWS][COLUMNS])
 {
     int maxStableCoins=0;
@@ -534,9 +526,9 @@ pair<int,int> OthelloGame::countStableAndUnStableCoins(char board[ROWS][COLUMNS]
                         continue;
                     }else
                     {
-                        for (pair<int,int> move : listOfValidMoves(board,'X'))
+                        for (pair<int,int> move : listOfValidMoves(board,'N'))
                         {
-                            maxUnStableCoins+= toBeFlankedCoins(board,move,'X');
+                            maxUnStableCoins+= toBeFlankedCoins(board,move,'N');
                         }
 
                     }
@@ -550,9 +542,9 @@ pair<int,int> OthelloGame::countStableAndUnStableCoins(char board[ROWS][COLUMNS]
                         continue;
                     }else
                     {
-                        for (pair<int,int> move : listOfValidMoves(board,'N'))
+                        for (pair<int,int> move : listOfValidMoves(board,'X'))
                         {
-                            minUnStableCoins+= toBeFlankedCoins(board,move,'N');
+                            minUnStableCoins+= toBeFlankedCoins(board,move,'X');
                         }
 
                     }
@@ -566,6 +558,13 @@ pair<int,int> OthelloGame::countStableAndUnStableCoins(char board[ROWS][COLUMNS]
     minStabilityValue=minStableCoins-minUnStableCoins;
     return {maxStabilityValue,minStabilityValue};
 }
+int OthelloGame::toBeFlankedCoins(char board[ROWS][COLUMNS],pair<int,int> move,char player)
+{
+    return countToBeFlankedCoinsInColumns(board,move.first,move.second,player) +
+           countToBeFlankedCoinsInRows(board,move.first,move.second,player) +
+           countToBeFlankedCoinsInDiagonals(board,move.first,move.second,player);
+}
+
 
 /// TODO: think of the condition
 int OthelloGame::countToBeFlankedCoinsInRows(char board[ROWS][COLUMNS],int row,int column,char player)

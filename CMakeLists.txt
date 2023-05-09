@@ -3,4 +3,4 @@ project(AI)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(AI main.cpp SearchAlgorithm.h Game.h OthelloGame.cpp OthelloGame.h MiniMaxAlgorithm.cpp MiniMaxAlgorithm.h Constants.h AlphaBetaPruningAlgorithm.cpp AlphaBetaPruningAlgorithm.h)
+add_executable(AI main.cpp SearchAlgorithm.h Game.h OthelloGame.cpp OthelloGame.h MiniMaxAlgorithm.cpp MiniMaxAlgorithm.h Constants.h AlphaBetaPruningAlgorithm.cpp AlphaBetaPruningAlgorithm.h IterativeDeepeningOfAlphaBetaPruningAlgorithm.cpp IterativeDeepeningOfAlphaBetaPruningAlgorithm.h)

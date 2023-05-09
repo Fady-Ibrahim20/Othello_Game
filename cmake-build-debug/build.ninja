@@ -73,6 +73,12 @@ build CMakeFiles/AI.dir/AlphaBetaPruningAlgorithm.cpp.o: CXX_COMPILER__AI_Debug 
   OBJECT_DIR = CMakeFiles/AI.dir
   OBJECT_FILE_DIR = CMakeFiles/AI.dir
 
+build CMakeFiles/AI.dir/IterativeDeepeningOfAlphaBetaPruningAlgorithm.cpp.o: CXX_COMPILER__AI_Debug /home/fady/CLionProjects/AI/IterativeDeepeningOfAlphaBetaPruningAlgorithm.cpp || cmake_object_order_depends_target_AI
+  DEP_FILE = CMakeFiles/AI.dir/IterativeDeepeningOfAlphaBetaPruningAlgorithm.cpp.o.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/AI.dir
+  OBJECT_FILE_DIR = CMakeFiles/AI.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target AI
@@ -81,7 +87,7 @@ build CMakeFiles/AI.dir/AlphaBetaPruningAlgorithm.cpp.o: CXX_COMPILER__AI_Debug 
 #############################################
 # Link the executable AI
 
-build AI: CXX_EXECUTABLE_LINKER__AI_Debug CMakeFiles/AI.dir/main.cpp.o CMakeFiles/AI.dir/OthelloGame.cpp.o CMakeFiles/AI.dir/MiniMaxAlgorithm.cpp.o CMakeFiles/AI.dir/AlphaBetaPruningAlgorithm.cpp.o
+build AI: CXX_EXECUTABLE_LINKER__AI_Debug CMakeFiles/AI.dir/main.cpp.o CMakeFiles/AI.dir/OthelloGame.cpp.o CMakeFiles/AI.dir/MiniMaxAlgorithm.cpp.o CMakeFiles/AI.dir/AlphaBetaPruningAlgorithm.cpp.o CMakeFiles/AI.dir/IterativeDeepeningOfAlphaBetaPruningAlgorithm.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/AI.dir
   POST_BUILD = :
