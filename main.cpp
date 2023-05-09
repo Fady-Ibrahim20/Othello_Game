@@ -101,7 +101,7 @@ char board[8][8];
         int row, col;
         char player;
         while (flag) {
-            pair<int,pair<int,int>> res=miniMaxalgo.doAlgorithm(othelloGame,board,5,'X');
+            pair<int,pair<int,int>> res=algorithm.doAlgorithm(othelloGame,board,7,'X');
             int val= res.first ;
             cout << "val for max " << val <<endl;
             cout << " row for max : " << res.second.first <<endl;
@@ -138,16 +138,16 @@ char board[8][8];
         while(flag)
         {
            // pair<int,pair<int,int>> res=MiniMaxAlgorithm(board,2,'N'); 42 13 60 24
-            pair<int,pair<int,int>> res=miniMaxalgo.doAlgorithm(othelloGame,board,2,'N');
-            int val= res.first ;
-            cout << "val for min " << val <<endl;
-            cout << " row for min : " << res.second.first <<endl;
-            cout << " column for min: " << res.second.second <<endl;
-            row=res.second.first;
-            col=res.second.second;
+//            pair<int,pair<int,int>> res=miniMaxalgo.doAlgorithm(othelloGame,board,2,'N');
+//            int val= res.first ;
+//            cout << "val for min " << val <<endl;
+//            cout << " row for min : " << res.second.first <<endl;
+//            cout << " column for min: " << res.second.second <<endl;
+//            row=res.second.first;
+//            col=res.second.second;
 //
-//            cout << "Player N, enter row and column to place your piece: " ;
-//        cin >> row >> col;
+            cout << "Player N, enter row and column to place your piece: " ;
+        cin >> row >> col;
         player = 'N';
             if(row==-2 && col ==-2){
 cout << "the winner "<<othelloGame.getWinner(board)<<endl;
