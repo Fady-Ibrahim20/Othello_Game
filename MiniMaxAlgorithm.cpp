@@ -23,7 +23,7 @@ pair<int, pair<int, int>> MiniMaxAlgorithm::doAlgorithm(Game &game,char (&board)
         return pair<int,pair<int,int>> {result,{-2,-2}};
     }
 
-    if(player=='X')
+    if(player==MAX_PLAYER)
     {
         vector<pair<int,int>> moves =game.listOfValidMoves(board,player);
         if(moves.size()==0) {
@@ -54,7 +54,7 @@ pair<int, pair<int, int>> MiniMaxAlgorithm::doAlgorithm(Game &game,char (&board)
         //}
         }
     }
-    else if(player == 'N')
+    else if(player == MIN_PLAYER)
     {
         vector<pair<int,int>> moves =game.listOfValidMoves(board,player);
 

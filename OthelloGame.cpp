@@ -3,17 +3,16 @@
 //
 
 
-#include <future>
 #include "OthelloGame.h"
 
 bool OthelloGame::isTerminal(char (*board)[ROWS])
 {
-    if(listOfValidMoves(board,'X').size()==0 && listOfValidMoves(board,'N').size()==0){
+    if(listOfValidMoves(board,MAX_PLAYER).size()==0 && listOfValidMoves(board,MIN_PLAYER).size()==0){
         return true;
     }
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLUMNS; j++) {
-            if (board[i][j] == '-') {
+    for (int row = 0; row < ROWS; row++) {
+        for (int column = 0; column < COLUMNS; column++) {
+            if (board[row][column] == EMPTY_SQUARE) {
                 return false;
             }
         }
@@ -24,13 +23,13 @@ bool OthelloGame::isTerminal(char (*board)[ROWS])
 vector<pair<int, int>> OthelloGame::listOfValidMoves(char (*board)[ROWS], char player)
 {
     vector<pair<int,int>> listOfValidMoves;
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLUMNS; j++) {
-            if (board[i][j] == '-')
+    for (int row = 0; row < ROWS; row++) {
+        for (int column = 0; column < COLUMNS; column++) {
+            if (board[row][column] == EMPTY_SQUARE)
             {
-                if(isValidMove(board,i,j,player))
+                if(isValidMove(board,row,column,player))
                 {
-                    listOfValidMoves.push_back(make_pair(i,j));
+                    listOfValidMoves.push_back(make_pair(row,column));
                 }
             }
         }
@@ -68,13 +67,13 @@ void OthelloGame::saveBoard(char (&oldBoard)[ROWS][COLUMNS], char (&board)[ROWS]
 
 char OthelloGame::reversePlayer(char player)
 {
-    if(player=='X')
+    if(player==MAX_PLAYER)
     {
-        return 'N';
+        return MIN_PLAYER;
     }
     else
     {
-        return 'X';
+        return MAX_PLAYER;
     }
 }
 
@@ -154,6 +153,7 @@ bool OthelloGame::checkRows(char board[ROWS][COLUMNS],int row,int column,char pl
     }
     return false;
 }
+
 bool OthelloGame::checkColumns(char board[ROWS][COLUMNS],int row,int column,char player)
 {
     if(row>1)
@@ -354,7 +354,7 @@ void OthelloGame::flankInAllDirections(char board[ROWS][COLUMNS],int row,int col
     flankInDiagonals(board,row,column,player);
 }
 
-int OthelloGame::clculateHeuristic(char (*board)[8])
+int OthelloGame::clculateHeuristic(char (*board)[ROWS])
 {
     std::vector<std::thread> threads;
     auto parityResult=0;
@@ -366,7 +366,9 @@ int OthelloGame::clculateHeuristic(char (*board)[8])
     threads.emplace_back([&](){ parityResult = coinParity(board); });
     threads.emplace_back([&](){ mobilityResult = mobility(board); });
     threads.emplace_back([&](){ cornersResult = cornersCaptured(board); });
-    threads.emplace_back([&](){ stabilityResult = stability(board); });
+
+    // TODO: think of stability(count stable and unStable function)
+    //threads.emplace_back([&](){ stabilityResult = stability(board); });
    // threads.emplace_back([&](){ occupliedEdgesResult = occupiedEdgeCoins(board); });
 
 
@@ -377,17 +379,18 @@ int OthelloGame::clculateHeuristic(char (*board)[8])
     return parityResult + mobilityResult + cornersResult + stabilityResult;
 
 }
+
 int OthelloGame::coinParity(char board[ROWS][COLUMNS])
 {
     int maxPlayerCoins=0;
     int minPlayerCoins=0;
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLUMNS; j++) {
-            if (board[i][j] == 'X')
+            if (board[i][j] == MAX_PLAYER)
             {
                 ++maxPlayerCoins;
             }
-            else if(board[i][j] == 'N')
+            else if(board[i][j] == MIN_PLAYER)
             {
                 ++minPlayerCoins;
             }
@@ -399,14 +402,15 @@ int OthelloGame::coinParity(char board[ROWS][COLUMNS])
     //return (maxPlayerCoins-minPlayerCoins);
     return( (100*(maxPlayerCoins - minPlayerCoins )) / (maxPlayerCoins + minPlayerCoins )) ;
 }
+
 int OthelloGame::mobility(char board[ROWS][COLUMNS])
 {
     int maxPlayerActualMobility=0;
     int minPlayerActualMobility=0;
     int actualMobilityValue=0;
 
-    maxPlayerActualMobility = listOfValidMoves(board,'X').size();
-    minPlayerActualMobility = listOfValidMoves(board,'N').size();
+    maxPlayerActualMobility = listOfValidMoves(board,MAX_PLAYER).size();
+    minPlayerActualMobility = listOfValidMoves(board,MIN_PLAYER).size();
 
     if((minPlayerActualMobility + minPlayerActualMobility) !=0)
     {
@@ -442,29 +446,29 @@ pair<int,int> OthelloGame::checkCorners(char board[ROWS][COLUMNS])
 {
     int firstCornerForMax=0,secondCornerForMax=0,thirdCornerForMax=0,fourthCornerForMax=0,
             firstCornerForMin=0,secondCornerForMin=0,thirdCornerForMin=0,fourthCornerForMin=0;
-    if(board[0][0] !='-'){
-        if(board[0][0] == 'X'){
+    if(board[0][0] != EMPTY_SQUARE){
+        if(board[0][0] == MAX_PLAYER){
             firstCornerForMax=1;
         }else{
             firstCornerForMin=1;
         }
     }
-    if(board[0][7] !='-'){
-        if(board[0][7] == 'X'){
+    if(board[0][COLUMNS-1] != EMPTY_SQUARE){
+        if(board[0][COLUMNS-1] == MAX_PLAYER){
             secondCornerForMax=1;
         }else{
             secondCornerForMin=1;
         }
     }
-    if(board[7][7] !='-'){
-        if(board[0][0] == 'X'){
+    if(board[ROWS-1][COLUMNS-1] != EMPTY_SQUARE){
+        if(board[0][0] == MAX_PLAYER){
             thirdCornerForMax=1;
         }else{
             thirdCornerForMin=1;
         }
     }
-    if(board[7][0] !='-'){
-        if(board[7][0] == 'X'){
+    if(board[ROWS-1][0] != EMPTY_SQUARE){
+        if(board[ROWS-1][0] == MAX_PLAYER){
             fourthCornerForMax=1;
         }else{
             fourthCornerForMin=1;
@@ -484,6 +488,7 @@ bool OthelloGame::isCorner(int row,int column)
         return false;
     }
 }
+
 
 ///      Stability calculations
 int OthelloGame::stability(char board[ROWS][COLUMNS])
@@ -513,22 +518,22 @@ pair<int,int> OthelloGame::countStableAndUnStableCoins(char board[ROWS][COLUMNS]
     int minUnStableCoins=0;
     int minStabilityValue=0;
 
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLUMNS; j++) {
+    for (int row = 0; row < ROWS; row++) {
+        for (int column = 0; column < COLUMNS; column++) {
 
-            if (board[i][j] != '-')
+            if (board[row][column] != EMPTY_SQUARE)
             {
-                if(board[i][j] == 'X')
+                if(board[row][column] == MAX_PLAYER)
                 {
-                    if(isCorner(i,j))
+                    if(isCorner(row,column))
                     {
                         maxStableCoins++;
                         continue;
                     }else
                     {
-                        for (pair<int,int> move : listOfValidMoves(board,'N'))
+                        for (pair<int,int> move : listOfValidMoves(board,MIN_PLAYER))
                         {
-                            maxUnStableCoins+= toBeFlankedCoins(board,move,'N');
+                            maxUnStableCoins+= toBeFlankedCoins(board,move,MIN_PLAYER);
                         }
 
                     }
@@ -536,15 +541,15 @@ pair<int,int> OthelloGame::countStableAndUnStableCoins(char board[ROWS][COLUMNS]
                 }
                 else
                 {
-                    if(isCorner(i,j))
+                    if(isCorner(row,column))
                     {
                         ++minStableCoins;
                         continue;
                     }else
                     {
-                        for (pair<int,int> move : listOfValidMoves(board,'X'))
+                        for (pair<int,int> move : listOfValidMoves(board,MAX_PLAYER))
                         {
-                            minUnStableCoins+= toBeFlankedCoins(board,move,'X');
+                            minUnStableCoins+= toBeFlankedCoins(board,move,MIN_PLAYER);
                         }
 
                     }
@@ -566,7 +571,7 @@ int OthelloGame::toBeFlankedCoins(char board[ROWS][COLUMNS],pair<int,int> move,c
 }
 
 
-/// TODO: think of the condition
+
 int OthelloGame::countToBeFlankedCoinsInRows(char board[ROWS][COLUMNS],int row,int column,char player)
 {
     int numberOfFlankedCoins=0;
@@ -766,9 +771,9 @@ pair<int,int> OthelloGame::countEdgeCoins(char board[ROWS][COLUMNS])
 
             if(row == 0 || column == 0  || row == (ROWS-1) || column ==(COLUMNS-1)){
 
-            if (board[row][column] != '-')
+            if (board[row][column] != EMPTY_SQUARE)
             {
-                if(board[row][column] == 'X')
+                if(board[row][column] == MAX_PLAYER)
                 {
                     ++numberOfEdgesOccupiedByMax;
                 }
@@ -788,20 +793,20 @@ char OthelloGame::getWinner(char (*board)[ROWS])
     int minPlayerCoins=0;
     for (int row = 0; row < ROWS; row++) {
         for (int column = 0; column < COLUMNS; column++) {
-            if (board[row][column] == 'X')
+            if (board[row][column] == MAX_PLAYER)
             {
                 ++maxPlayerCoins;
             }
-            else if(board[row][column] == 'N')
+            else if(board[row][column] == MIN_PLAYER)
             {
                 ++minPlayerCoins;
             }
         }
     }
     if(maxPlayerCoins>minPlayerCoins){
-        return 'X';
+        return MAX_PLAYER;
     }else{
-        return 'N';
+        return MIN_PLAYER;
     }
 }
 
@@ -810,14 +815,15 @@ pair<int,int> OthelloGame::getCurrentScore(char (*board)[8]) {
     int minPlayerCoins=0;
     for (int row = 0; row < ROWS; row++) {
         for (int column = 0; column < COLUMNS; column++) {
-            if(board[row][column])
-            if (board[row][column] == 'X')
+            if(board[row][column] != EMPTY_SQUARE){
+            if (board[row][column] == MAX_PLAYER)
             {
                 ++maxPlayerCoins;
             }
-            else if(board[row][column] == 'N')
+            else if(board[row][column] == MIN_PLAYER)
             {
                 ++minPlayerCoins;
+            }
             }
         }
     }

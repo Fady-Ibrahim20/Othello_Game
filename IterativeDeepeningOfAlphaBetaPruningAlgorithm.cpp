@@ -10,7 +10,7 @@ IterativeDeepeningOfAlphaBetaPruningAlgorithm::doAlgorithm(Game &game, char (&bo
     pair<int,pair<int,int>> alphaBetaPruningReturn;
     pair<int,pair<int,int>> finalResult;
     int highestValue;
-    if(player=='X'){highestValue=SMALLEST_VALUE;}else{highestValue=LARGEST_VALUE;}
+    if(player==MAX_PLAYER){highestValue=SMALLEST_VALUE;}else{highestValue=LARGEST_VALUE;}
     int alpha=SMALLEST_VALUE;
     int beta=LARGEST_VALUE;
     for(int i=0;i<=depth;i++)

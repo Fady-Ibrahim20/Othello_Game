@@ -9,7 +9,11 @@ enum values {
     SMALLEST_VALUE = -10000000,
     LARGEST_VALUE = 10000000
 };
-
+enum player{
+    MAX_PLAYER ='X',
+    MIN_PLAYER ='N',
+    EMPTY_SQUARE='-'
+};
 enum boardSize {
     ROWS = 8,
     COLUMNS = 8

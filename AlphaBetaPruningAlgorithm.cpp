@@ -36,7 +36,7 @@ pair<int,pair<int,int>> AlphaBetaPruningAlgorithm::recursiveAlphaBetaAlgorithm(G
         return pair<int,pair<int,int>> {result,{-1,-1}};
     }
 
-    if(player=='X')
+    if(player==MAX_PLAYER)
     {
         vector<pair<int,int>> moves=game.listOfValidMoves(board,'X');
         if (moves.size() == 0) {
@@ -85,7 +85,7 @@ pair<int,pair<int,int>> AlphaBetaPruningAlgorithm::recursiveAlphaBetaAlgorithm(G
 
         }
     }
-    else if(player == 'N') {
+    else if(player == MIN_PLAYER) {
 
         vector<pair<int, int>> moves = game.listOfValidMoves(board, 'N');
         if (moves.size() == 0) {
