@@ -50,7 +50,7 @@ private:
     int mobility(char board[ROWS][COLUMNS]);
     int cornersCaptured(char board[ROWS][COLUMNS]);
     pair<int,int> checkCorners(char board[ROWS][COLUMNS]);
-    bool isCorner(int row,int column);
+    inline bool isCorner(int row,int column);
 
     int stability(char board[ROWS][COLUMNS]);
 
