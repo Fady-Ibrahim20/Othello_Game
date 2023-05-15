@@ -19,7 +19,7 @@ public:
 
     vector<pair<int, int>> listOfValidMoves(char board[ROWS][COLUMNS], char player) override;
 
-    bool isValidMove(char board[ROWS][COLUMNS], int row, int column, char player) override;
+
 
     void makeMove(char board[ROWS][COLUMNS], int row, int column, char player) override;
 
@@ -37,6 +37,7 @@ public:
 
 
 private:
+    inline bool isValidMove(char board[ROWS][COLUMNS], int row, int column, char player) ;
     bool checkDiagonals(char board[ROWS][COLUMNS],int row,int column,char player);
     bool checkRows(char board[ROWS][COLUMNS],int row,int column,char player);
     bool checkColumns(char board[ROWS][COLUMNS],int row,int column,char player);

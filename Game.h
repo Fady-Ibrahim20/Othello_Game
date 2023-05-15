@@ -15,7 +15,7 @@ public:
     virtual bool isTerminal(char board[ROWS][COLUMNS])=0;
 
     virtual vector<pair<int,int>> listOfValidMoves(char board[ROWS][COLUMNS],char player)=0;
-    virtual bool isValidMove(char board[ROWS][COLUMNS],int row,int column,char player)=0;
+   // virtual bool isValidMove(char board[ROWS][COLUMNS],int row,int column,char player)=0;
 
 
     virtual void makeMove(char board[ROWS][COLUMNS],int row,int column,char player)=0;
