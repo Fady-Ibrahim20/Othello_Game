@@ -35,7 +35,7 @@ pair<int,pair<int,int>> AlphaBetaPruningAlgorithm::recursiveAlphaBetaAlgorithm(G
         }
         return pair<int,pair<int,int>> {result,{-1,-1}};
     }
-
+    bool isPruned=false;
     if(player==MAX_PLAYER)
     {
         vector<pair<int,int>> moves=game.listOfValidMoves(board,'X');
@@ -77,11 +77,18 @@ pair<int,pair<int,int>> AlphaBetaPruningAlgorithm::recursiveAlphaBetaAlgorithm(G
                     alpha = value;
                 }
                 if (alpha >= beta) {
+                    isPruned=true;
                     //cout << "at "<<player <<" alpha = " <<alpha <<"beta = "<<beta <<endl;
                     break;
                 }
             }
-            return pair<int, pair<int, int>>{finalValue, {finalRow, finalColumn}};
+            if(!isPruned){
+                return pair<int, pair<int, int>>{finalValue, {finalRow, finalColumn}};
+
+            }else{
+                return pair<int, pair<int, int>>{LARGEST_VALUE, {finalRow, finalColumn}};
+
+            }
 
         }
     }
@@ -130,11 +137,17 @@ pair<int,pair<int,int>> AlphaBetaPruningAlgorithm::recursiveAlphaBetaAlgorithm(G
                     beta = value;
                 }
                 if (alpha >= beta) {
+                    isPruned=true;
                   //  cout << "at "<<player <<" alpha = " <<alpha <<"beta = "<<beta <<endl;
                     break;
                 }
             }
+            if(!isPruned){
                 return pair<int, pair<int, int>>{finalValue, {finalRow, finalColumn}};
+            }else{
+                return pair<int, pair<int, int>>{SMALLEST_VALUE, {finalRow, finalColumn}};
+
+            }
 
 
         }
