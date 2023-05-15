@@ -46,16 +46,16 @@ private:
     void flankInRows(char board[ROWS][COLUMNS],int row,int column,char player);
     void flankInAllDirections(char board[ROWS][COLUMNS],int row,int column,char player);
 
-    int coinParity(char board[ROWS][COLUMNS]);
-    int mobility(char board[ROWS][COLUMNS]);
-    int cornersCaptured(char board[ROWS][COLUMNS]);
-    pair<int,int> checkCorners(char board[ROWS][COLUMNS]);
+    inline int coinParity(char board[ROWS][COLUMNS]);
+    inline int mobility(char board[ROWS][COLUMNS]);
+    inline int cornersCaptured(char board[ROWS][COLUMNS]);
+    inline pair<int,int> checkCorners(char board[ROWS][COLUMNS]);
     inline bool isCorner(int row,int column);
 
-    int stability(char board[ROWS][COLUMNS]);
+    inline int stability(char board[ROWS][COLUMNS]);
 
 
-    int toBeFlankedCoins(char board[ROWS][COLUMNS],pair<int,int> move,char player);
+    inline int toBeFlankedCoins(char board[ROWS][COLUMNS],pair<int,int> move,char player);
     pair<int,int> countStableAndUnStableCoins(char board[ROWS][COLUMNS]);
     int countToBeFlankedCoinsInRows(char board[ROWS][COLUMNS],int row,int column,char player);
     int countToBeFlankedCoinsInColumns(char board[ROWS][COLUMNS],int row,int column,char player);
