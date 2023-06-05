@@ -72,6 +72,7 @@ pair<int,pair<int,int>> AlphaBetaPruningAlgorithm::recursiveAlphaBetaAlgorithm(G
 //                        std::cout << "for max final column : "  << finalColumn <<endl;
 
                 }
+//TODO: to be considered if we didn't update the Alpha return it
                 if (value > alpha) {
                     //cout << "value that larger than alpha "<<value;
                     alpha = value;
