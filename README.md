@@ -4,7 +4,6 @@
 ## Table of contents
 + [Background](Background)
 + [Controls](Controls)
-+ [Installation](Installation)
 + [Technologies](Technologies)
 ## Background
 Othello is a strategy board game for two players, played on an 8×8 uncheckered board. It was invented in 1883.
@@ -23,5 +22,5 @@ Othello is a strategy board game for two players, played on an 8×8 uncheckered 
    
    -When both players can not make a valid move the gane ends.
 
-## Installation
 ## Technologies
+-C++
